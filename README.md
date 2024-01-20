@@ -4,7 +4,7 @@
   * `forgot password`
   * `verify email`
   * `reset password success`
-  
+
 * Notification service uses these tools as the main tools
   * `@flowercordoba/task-shared-library`
   * `NodeJS`
@@ -14,5 +14,3 @@
   * `Elasticsearch`
   * `Nodemailer`
   * `Email templates`
-
-  

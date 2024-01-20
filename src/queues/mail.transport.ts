@@ -1,4 +1,4 @@
-import { IEmailLocals, winstonLogger } from '@flowercordoba/task-shared-library';
+import { winstonLogger, IEmailLocals } from '@flowercordoba/task-shared-library';
 import { config } from '@notifications/config';
 import { emailTemplates } from '@notifications/helpers';
 import { Logger } from 'winston';

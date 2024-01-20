@@ -35,5 +35,4 @@ async function consumeAuthEmailMessages(channel: Channel): Promise<void> {
   }
 }
 
-
 export { consumeAuthEmailMessages };

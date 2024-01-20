@@ -1,12 +1,15 @@
 import 'express-async-errors';
 import http from 'http';
 
-import { winstonLogger } from '@flowercordoba/task-shared-library';
 import { Logger } from 'winston';
 import { config } from '@notifications/config';
 import { Application } from 'express';
 import { healthRoutes } from '@notifications/routes';
 import { checkConnection } from '@notifications/elasticsearch';
+import { createConnection } from '@notifications/queues/connection';
+import { Channel } from 'amqplib';
+import { consumeAuthEmailMessages } from '@notifications/queues/email.consumer';
+import { winstonLogger } from '@flowercordoba/task-shared-library';
 
 const SERVER_PORT = 4001;
 const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'notificationServer', 'debug');
@@ -14,9 +17,15 @@ const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'notificationS
 export function start(app: Application): void {
   startServer(app);
   app.use('', healthRoutes());
+  startQueues();
   startElasticSearch();
 }
 
+async function startQueues(): Promise<void> {
+  const emailChannel: Channel = await createConnection() as Channel;
+  await consumeAuthEmailMessages(emailChannel);
+
+}
 
 function startElasticSearch(): void {
   checkConnection();
